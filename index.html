@@ -14,6 +14,27 @@
             integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
             crossorigin=""></script>
     <script src="main.js" defer></script>
+
+    <script
+      id="search-js"
+      defer
+      src="https://api.mapbox.com/search-js/v1.2.0/web.js"
+      >
+    </script>
+
+
+    <script>
+        const script = document.getElementById('search-js');
+        script.onload = function() {
+        mapboxsearch.autofill({
+        accessToken: "pk.eyJ1Ijoibm9haDEwMSIsImEiOiJjbXZqMDZ4MHowYnI2MnhvdmoyczZvenEwIn0.DLUJBowla0lQQa5LOm9dgQ"
+      });
+     };
+    </script>
+
+
+
+
 </head>
 <body>
     <p>Using this system, we are able to determine the bus stop that is closest to you. By simply inputting your address, we'll output the street for your bus stop. All queries are server side. We won't be saving any of your information.</p>
@@ -21,7 +42,7 @@
     <form>
          <div class = "search">
             <span class="search-icon material-symbols-outlined">home</span>
-            <input class = "search-input" type = "search" name ="" id ="" placeholder = "Insert Your Address Here">
+            <input class = "search-input" type = "text" name ="address" id ="" placeholder = "Enter Your Address Here" autocomplete="address-line1">
          </div>
     </form>
 
