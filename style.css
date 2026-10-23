@@ -7,7 +7,7 @@ input {
     font: inherit;
 }
 
-.search{
+.search {
     --padding: 22px;
 
     align-items: center;
@@ -32,15 +32,15 @@ input {
     min-height: 400px;
 }
 
-.search:focus-within{
+.search:focus-within {
     box-shadow: 0 0 2px rgba(0, 0, 0, .75);
     background: #f1f1f1;
 }
 
-.search-input{
+.search-input {
     font-size: 16px;
     font-family: Arial, Helvetica, sans-serif;
-    color:#000;
+    color: #000;
     outline: none;
     border: none;
     background: transparent;
@@ -158,4 +158,64 @@ input {
         min-width: 0;
         width: 100%;
     }
+}
+
+#app-view {
+    padding: 24px;
+}
+
+#address-form wa-input {
+    max-width: 520px;
+}
+
+#auth-view {
+
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: min(420px, calc(100% - 32px));
+    margin: 10vh auto 0;
+    padding: 32px;
+    background: #fff;
+    text-align: center;
+}
+
+#auth-view h1,
+#auth-view h2,
+#auth-view p {
+    margin: 0;
+}
+
+#auth-view form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    text-align: left;
+}
+
+#auth-view wa-button {
+    width: 100%;
+}
+
+#auth-view section {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.auth-divider {
+    display: flex;
+    align-items: center;
+    color: #666;
+    font-size: 14px;
+}
+
+
+
+#auth-status:empty {
+    display: none;
+}
+
+[hidden] {
+    display: none !important;
 }

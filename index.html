@@ -1,59 +1,129 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Find Your Route</title>
-    <h1>Find your Route</h1>
 
-    <meta name="mapbox-access-token" content="pk.eyJ1Ijoibm9haDEwMSIsImEiOiJjbXZqMDZ4MHowYnI2MnhvdmoyczZvenEwIn0.DLUJBowla0lQQa5LOm9dgQ">
+    <meta name="mapbox-access-token"
+          content="pk.eyJ1Ijoibm9haDEwMSIsImEiOiJjbXZqMDZ4MHowYnI2MnhvdmoyczZvenEwIn0.DLUJBowla0lQQa5LOm9dgQ">
+
     <link rel="stylesheet" href="style.css">
+    <link href="https://api.mapbox.com/mapbox-gl-js/v3.14.0/mapbox-gl.css"
+          rel="stylesheet">
 
-    <link href="https://api.mapbox.com/mapbox-gl-js/v3.14.0/mapbox-gl.css" rel="stylesheet">
-    <script src="https://api.mapbox.com/mapbox-gl-js/v3.14.0/mapbox-gl.js" defer></script>
-    <script src="main.js" defer></script>
+    <script type="module" src="main.js"></script>
 
-    <script
-      id="search-js"
-      defer
-      src="https://api.mapbox.com/search-js/v1.2.0/web.js"
-      >
-    </script>
-    <script>
-        const script = document.getElementById('search-js');
-        script.onload = function() {
-            mapboxsearch.autofill({
-                accessToken: document.querySelector('meta[name="mapbox-access-token"]').content
-            });
-        };
-    </script>
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/@awesome.me/webawesome@3.0.0/dist-cdn/styles/webawesome.css">
+    <script type="module"
+            src="https://cdn.jsdelivr.net/npm/@awesome.me/webawesome@3.0.0/dist-cdn/webawesome.loader.js"></script>
 </head>
+
 <body>
-    <p>Enter your address to find closest address. Everything is servside.</p>
+    <main id="app-view" hidden>
+        <header>
+            <h1>Find Your Route</h1>
+            <button id="sign-out" type="button">Sign out</button>
+        </header>
 
-    <form id="address-form">
-        <div class="search">
-            <label class="visually-hidden" for="address">Address</label>
-            <svg class="search-icon" aria-hidden="true" viewBox="0 0 24 24" focusable="false">
-                <path d="M12 3 2.5 11h2.7v9h5.2v-5.8h3.2V20h5.2v-9h2.7L12 3z"></path>
-            </svg>
-            <input class="search-input" type="text" name="address" id="address" placeholder="Enter Your Address Here" autocomplete="address-line1" required>
-        </div>
-    </form>
+        <p>Enter your address to find the closest address.</p>
 
-    <p id="map-status" class="map-status" role="status" aria-live="polite"></p>
-    <div class="map-container">
-        <div class="map-controls">
-            <button id="map-view-toggle" class="map-view-switch" type="button" aria-label="Switch to 2D" aria-pressed="true" disabled>
-                <span class="switch-track" aria-hidden="true">
-                    <span class="switch-thumb"></span>
-                    <span class="switch-option switch-option-3d">3D</span>
-                    <span class="switch-option switch-option-2d">2D</span>
-                </span>
-            </button>
+        <form id="address-form">
+            <wa-input
+                type="text"
+                name="address"
+                id="address"
+                label="Address"
+                placeholder="Enter Your Address Here"
+                autocomplete="street-address"
+                required
+            >
+                <wa-icon slot="start" name="magnifying-glass"></wa-icon>
+            </wa-input>
+        </form>
+
+        <p id="map-status" class="map-status" role="status" aria-live="polite"></p>
+
+        <div class="map-container">
+            <div class="map-controls">
+                <button
+                    id="map-view-toggle"
+                    class="map-view-switch"
+                    type="button"
+                    aria-label="Switch to 2D"
+                    aria-pressed="true"
+                    disabled
+                >
+                    <span class="switch-track" aria-hidden="true">
+                        <span class="switch-thumb"></span>
+                        <span class="switch-option switch-option-3d">3D</span>
+                        <span class="switch-option switch-option-2d">2D</span>
+                    </span>
+                </button>
+            </div>
+
+            <div id="map" aria-label="Interactive 3D map of Phoenix, Arizona"></div>
         </div>
-        <div id="map" aria-label="Interactive 3D map of Phoenix, Arizona"></div>
-    </div>
-    
+    </main>
+
+    <main id="auth-view">
+        <h1>azfindroute</h1>
+        <p>Sign in to find your bus route.</p>
+
+        <wa-button id="google-sign-in" appearance="outlined" type="button">
+            Continue with Google
+        </wa-button>
+
+        <div class="auth-divider"><span>or continue with email</span></div>
+
+        <form id="email-form">
+            <wa-input
+                type="email"
+                name="email"
+                id="email"
+                label="Email"
+                placeholder="Enter Your Email Here"
+                autocomplete="email"
+                required
+            ></wa-input>
+
+            <wa-input
+                type="password"
+                name="password"
+                id="password"
+                label="Password"
+                placeholder="Enter Your Password"
+                autocomplete="current-password"
+                minlength="6"
+                password-toggle
+                required
+            ></wa-input>
+
+            <wa-button id="email-sign-in" variant="brand" type="button">
+                Sign in
+            </wa-button>
+        </form>
+
+        <wa-button id="create-account" appearance="plain" type="button">
+            Create account
+        </wa-button>
+
+        <p id="auth-status" role="status" aria-live="polite"></p>
+
+        <section id="verification-view" hidden>
+            <h2>Verify your email</h2>
+            <p>Check your inbox and click the verification link</p>
+
+            <wa-button id="resend-verification" variant="brand" type="button">
+                Resend verification email
+            </wa-button>
+
+            <wa-button id="check-verification" appearance="plain" type="button">
+                I've verified my email
+            </wa-button>
+        </section>
+    </main>
 </body>
 </html>
